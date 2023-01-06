@@ -12,17 +12,59 @@ import top.ninng.entity.User;
 @Repository("userMapper")
 public interface UserMapper {
 
+    /**
+     * 根据id删除
+     *
+     * @param id
+     * @return
+     */
     int deleteByPrimaryKey(Long id);
 
-    int insert(User record);
+    /**
+     * 插入一条完整用户信息
+     *
+     * @param user
+     * @return
+     */
+    int insert(User user);
 
-    int insertSelective(User record);
+    /**
+     * 选择性插入
+     *
+     * @param user
+     * @return
+     */
+    int insertSelective(User user);
 
+    /**
+     * 根据名称查找用户信息
+     *
+     * @param name
+     * @return
+     */
     User selectByName(String name);
 
+    /**
+     * 根据id查找用户信息
+     *
+     * @param id
+     * @return
+     */
     User selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKey(User record);
+    /**
+     * 更新用户信息
+     *
+     * @param user
+     * @return
+     */
+    int updateByPrimaryKey(User user);
 
-    int updateByPrimaryKeySelective(User record);
+    /**
+     * 选择性更新用户信息
+     *
+     * @param user
+     * @return
+     */
+    int updateByPrimaryKeySelective(User user);
 }
