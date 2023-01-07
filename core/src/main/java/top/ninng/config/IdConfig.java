@@ -14,6 +14,8 @@ public class IdConfig {
 
     @Bean
     public IdObfuscator getIdObfuscator() {
-        return new IdObfuscator().init("dev key", 8);
+        return new IdObfuscator().init(
+                new String[]{"dev userId key", "dev articleId key"},
+                new int[]{8, 12});
     }
 }

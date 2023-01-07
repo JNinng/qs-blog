@@ -48,7 +48,7 @@ public class UserServiceImpl implements IUserService {
         }
         if (password.equals(selectUser.getUserPassword())) {
             StpUtil.login(selectUser.getId());
-            return UnifyResponse.ok("登录成功！", new LoginResult(idObfuscator.encode(selectUser.getId()),
+            return UnifyResponse.ok("登录成功！", new LoginResult(idObfuscator.encode(selectUser.getId(), 0),
                     StpUtil.getTokenValue()));
         }
         return UnifyResponse.fail("账号或密码错误！", null);

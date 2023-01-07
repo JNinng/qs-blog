@@ -16,7 +16,7 @@ import top.ninng.utils.IdObfuscator;
  * @Version 1.0
  */
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
 
     public IUserService iUserService;
@@ -31,9 +31,9 @@ public class UserController {
     public UnifyResponse<String> checkLogin(
             @RequestParam(value = "id") String id) {
         if (StpUtil.isLogin()) {
-            long[] resultId = idObfuscator.decode(id);
-            if (resultId.length > 0) {
-                return iUserService.checkLogin(resultId[0]);
+            long[] realId = idObfuscator.decode(id, 0);
+            if (realId.length > 0) {
+                return iUserService.checkLogin(realId[0]);
             }
         }
         return UnifyResponse.fail("您还未登录！");
