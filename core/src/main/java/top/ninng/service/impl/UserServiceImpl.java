@@ -32,9 +32,9 @@ public class UserServiceImpl implements IUserService {
         Object result = StpUtil.getLoginIdByToken(tokenValueByLoginId);
         System.out.println(result);
         if (EmptyCheck.notEmpty(result)) {
-            Long resultId = Long.valueOf((String) result);
+            long resultId = Long.parseLong((String) result);
             if (resultId == id) {
-                return UnifyResponse.ok(id + " 已登录！");
+                return UnifyResponse.ok("已登录！");
             }
         }
         return UnifyResponse.ok(id + " 未登录！");
