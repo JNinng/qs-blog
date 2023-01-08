@@ -18,14 +18,14 @@ public class IdObfuscatorTest {
     @Before
     public void init() {
         idObfuscator = new IdObfuscator();
-        idObfuscator.init("test key", 8);
+        idObfuscator.init(new String[]{"test key"}, new int[]{8});
     }
 
     @Test
     public void test() {
         for (int i = 0; i < 4; i++) {
-            String s = idObfuscator.encode(i);
-            long[] j = idObfuscator.decode(s);
+            String s = idObfuscator.encode(i, 0);
+            long[] j = idObfuscator.decode(s, 0);
             System.out.println(s + " " + Arrays.toString(j));
         }
     }

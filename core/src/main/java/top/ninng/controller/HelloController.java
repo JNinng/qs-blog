@@ -12,7 +12,7 @@ import top.ninng.entity.UnifyResponse;
  * @Version 1.0
  */
 @RestController
-@RequestMapping("hello")
+@RequestMapping("/hello")
 public class HelloController {
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)

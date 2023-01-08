@@ -11,22 +11,33 @@ import org.hashids.Hashids;
  */
 public class IdObfuscator {
 
-    public String key = "my key";
-    public int length = 8;
-    public Hashids hashids;
+    public String[] keys = new String[]{"my key"};
+    public int[] length = new int[]{8};
+    public Hashids[] hashids;
 
-    public long[] decode(String t) {
-        return hashids.decode(t);
+    public long[] decode(String t, int index) {
+        if (index < keys.length) {
+            return hashids[index].decode(t);
+        }
+        return null;
     }
 
-    public String encode(int id) {
-        return hashids.encode(id);
+    public String encode(int id, int index) {
+        if (index < keys.length) {
+            return hashids[index].encode(id);
+        }
+        return null;
     }
 
-    public IdObfuscator init(String key, int length) {
-        this.key = key;
+    public IdObfuscator init(String[] keys, int[] length) {
+        this.keys = keys;
         this.length = length;
-        hashids = new Hashids(key, length);
+        this.hashids = new Hashids[keys.length];
+
+        for (int i = 0; i < keys.length; i++) {
+            hashids[i] = new Hashids(keys[i], length[i]);
+        }
+
         return this;
     }
 }
