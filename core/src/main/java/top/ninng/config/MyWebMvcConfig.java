@@ -5,7 +5,9 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import top.ninng.utils.Path;
 
 import java.nio.charset.StandardCharsets;
 
@@ -18,6 +20,12 @@ import java.nio.charset.StandardCharsets;
  */
 @Configuration
 public class MyWebMvcConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations(Path.getWorkAbsolutePath() + "/data/img/");
+    }
 
     @Bean
     FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
