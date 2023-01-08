@@ -1,5 +1,7 @@
 package top.ninng.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,10 +12,13 @@ import java.util.Date;
  * @TableName user
  */
 public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 6621443534452581641L;
+
     /**
      * id
      */
+    @JSONField(serialize = false)
     private Integer id;
     /**
      * 用户名称
@@ -22,6 +27,7 @@ public class User implements Serializable {
     /**
      * 用户密码
      */
+    @JSONField(serialize = false)
     private String userPassword;
     /**
      * 邮箱
@@ -34,6 +40,7 @@ public class User implements Serializable {
     /**
      * 修改时间
      */
+    @JSONField(serialize = false)
     private Date updateTime;
     /**
      * 删除状态

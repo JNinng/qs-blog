@@ -27,5 +27,4 @@ sa-token:
   is-log: false
 logging:
   level:
-    org.springframework.cloud.alibaba.seata.web: debug
-    com.ninng: debug
+    top.ninng: debug
