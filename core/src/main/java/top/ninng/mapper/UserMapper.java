@@ -13,7 +13,7 @@ import top.ninng.entity.User;
 public interface UserMapper {
 
     /**
-     * 根据id删除
+     * 根据 id 删除
      *
      * @param id
      * @return
@@ -45,7 +45,7 @@ public interface UserMapper {
     User selectByName(String name);
 
     /**
-     * 根据id查找用户信息
+     * 根据 id 查找用户信息
      *
      * @param id
      * @return

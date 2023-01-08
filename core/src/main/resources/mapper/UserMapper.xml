@@ -19,7 +19,7 @@
         email,create_time,update_time,
         delete_status
     </sql>
-    
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -39,6 +39,7 @@
         from user
         where id = #{id,jdbcType=INTEGER}
     </delete>
+
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.ninng.entity.User" useGeneratedKeys="true">
         insert into user
         ( id, user_name, user_password
@@ -48,6 +49,7 @@
                , #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
                , #{deleteStatus,jdbcType=BIT})
     </insert>
+
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.ninng.entity.User"
             useGeneratedKeys="true">
         insert into user
@@ -70,6 +72,7 @@
             <if test="deleteStatus != null">#{deleteStatus,jdbcType=BIT},</if>
         </trim>
     </insert>
+
     <update id="updateByPrimaryKeySelective" parameterType="top.ninng.entity.User">
         update user
         <set>
@@ -94,6 +97,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+
     <update id="updateByPrimaryKey" parameterType="top.ninng.entity.User">
         update user
         set user_name     = #{userName,jdbcType=VARCHAR},
