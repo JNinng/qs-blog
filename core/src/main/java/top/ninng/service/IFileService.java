@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * @Date 2023/1/9 14:29
  * @Version 1.0
  */
-public interface IImageService {
+public interface IFileService {
 
     /**
      * 获取 image

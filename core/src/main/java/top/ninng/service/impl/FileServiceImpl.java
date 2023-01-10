@@ -3,7 +3,7 @@ package top.ninng.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.ninng.entity.UnifyResponse;
-import top.ninng.service.IImageService;
+import top.ninng.service.IFileService;
 import top.ninng.utils.EmptyCheck;
 import top.ninng.utils.Path;
 
@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  * @Version 1.0
  */
 @Service
-public class ImageServiceImpl implements IImageService {
+public class FileServiceImpl implements IFileService {
 
     String imgPath = Path.getWorkAbsolutePath() + "/data/img/";
     Pattern pattern = Pattern.compile("[^.]*$");

@@ -3,7 +3,7 @@ package top.ninng.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.ninng.entity.UnifyResponse;
-import top.ninng.service.IImageService;
+import top.ninng.service.IFileService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -15,27 +15,27 @@ import java.awt.image.BufferedImage;
  * @Version 1.0
  */
 @RestController
-@RequestMapping("/image")
+@RequestMapping("/file")
 public class FileController {
 
     ServletContext servletContext;
-    IImageService iImageService;
+    IFileService iFileService;
 
-    public FileController(ServletContext servletContext, IImageService iImageService) {
+    public FileController(ServletContext servletContext, IFileService iFileService) {
         this.servletContext = servletContext;
-        this.iImageService = iImageService;
+        this.iFileService = iFileService;
     }
 
-    @RequestMapping(value = "/{name}")
+    @RequestMapping(value = "/image/{name}", method = RequestMethod.GET)
     public BufferedImage getImage(
             @PathVariable(value = "name") String name,
             HttpServletResponse response) {
-        return iImageService.getImage(name, response);
+        return iFileService.getImage(name, response);
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public UnifyResponse<String> upload(
             @RequestParam(value = "files") MultipartFile[] files) {
-        return iImageService.upload(files);
+        return iFileService.upload(files);
     }
 }
