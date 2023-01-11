@@ -12,10 +12,14 @@ import top.ninng.utils.IdObfuscator;
 @Configuration
 public class IdConfig {
 
+    public static int USER_ID = 0;
+    public static int ARTICLE_ID = 1;
+    public static int COMMENT_ID = 2;
+
     @Bean
     public IdObfuscator getIdObfuscator() {
         return new IdObfuscator().init(
-                new String[]{"dev userId key", "dev articleId key"},
-                new int[]{8, 12});
+                new String[]{"dev userId key", "dev articleId key", "dev commentId key"},
+                new int[]{8, 12, 12});
     }
 }
