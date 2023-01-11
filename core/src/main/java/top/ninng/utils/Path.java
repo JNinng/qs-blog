@@ -13,7 +13,7 @@ public class Path {
      * @return
      */
     public static String getWorkAbsolutePath() {
-        return "file:///" + System.getProperty("user.dir")
+        return System.getProperty("user.dir")
                 .replaceAll("\\\\[^\\\\]*\\\\[^\\\\]*\\\\$", "")
                 .replaceAll("\\\\", "/");
     }

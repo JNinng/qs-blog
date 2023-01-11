@@ -24,7 +24,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
-                .addResourceLocations(Path.getWorkAbsolutePath() + "/data/img/");
+                .addResourceLocations("file:///" + Path.getWorkAbsolutePath() + "/data/img/");
     }
 
     @Bean
