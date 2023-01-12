@@ -17,65 +17,65 @@ public interface ArticleMapper {
     /**
      * 根据 id 删除文章
      *
-     * @param id
-     * @return
+     * @param id 文章 id
+     * @return 删除结果
      */
     int deleteByPrimaryKey(Long id);
 
     /**
      * 插入完整文章信息
      *
-     * @param article
-     * @return
+     * @param article 文章
+     * @return 插入结果
      */
     int insert(Article article);
 
     /**
      * 选择性插入文章信息
      *
-     * @param article
-     * @return
+     * @param article 文章
+     * @return 插入结果
      */
     int insertSelective(Article article);
 
     /**
      * 分页查询文章 id
      *
-     * @param l
-     * @param r
-     * @return
+     * @param l 左边界
+     * @param r 右边界
+     * @return 分页查询 id 结果列表
      */
     ArrayList<Long> selectArticleIdListByPage(int l, int r);
 
     /**
      * 根据 id 查询文章信息
      *
-     * @param id
-     * @return
+     * @param id 文章 id
+     * @return 文章信息
      */
     Article selectByPrimaryKey(Long id);
 
     /**
      * 根据 id 查找所属用户
      *
-     * @param id
-     * @return
+     * @param id 文章 id
+     * @return 所属用户 id
      */
     long selectUserIdByIdInt(Long id);
 
     /**
      * 更新完整文章信息
      *
-     * @param article
-     * @return
+     * @param article 文章
+     * @return 更新结果
      */
     int updateByPrimaryKey(Article article);
 
     /**
      * 选择性更新文章信息
      *
-     * @param article
-     * @return
+     * @param article 文章
+     * @return 更新结果
      */
     int updateByPrimaryKeySelective(Article article);
 }
