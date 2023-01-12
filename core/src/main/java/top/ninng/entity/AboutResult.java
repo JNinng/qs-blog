@@ -1,11 +1,17 @@
 package top.ninng.entity;
 
+import java.io.Serializable;
+
 /**
+ * “关于”信息响应实体
+ *
  * @Author OhmLaw
  * @Date 2023/1/11 16:00
  * @Version 1.0
  */
-public class AboutResult {
+public class AboutResult implements Serializable {
+
+    private static final long serialVersionUID = 2279499493621489517L;
 
     private String info;
     private String email;
