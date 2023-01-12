@@ -3,7 +3,7 @@ package top.ninng.utils;
 import org.hashids.Hashids;
 
 /**
- * id混淆
+ * id 混淆
  *
  * @Author OhmLaw
  * @Date 2022/12/31 15:18

@@ -5,6 +5,8 @@ import top.ninng.constants.Constants;
 import java.io.Serializable;
 
 /**
+ * 统一响应
+ *
  * @Author OhmLaw
  * @Date 2022/12/29 16:20
  * @Version 1.0
