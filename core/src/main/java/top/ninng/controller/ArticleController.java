@@ -12,6 +12,8 @@ import top.ninng.utils.Ip;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 文章控制器
+ *
  * @Author OhmLaw
  * @Date 2023/1/6 17:27
  * @Version 1.0
@@ -29,16 +31,31 @@ public class ArticleController {
         System.out.println(idObfuscator.encode(1, 1));
     }
 
+    /**
+     * 根据混淆 id 获取文章
+     *
+     * @param id 混淆 id
+     * @return 指定文章
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public UnifyResponse<Article> getArticleById(
             @PathVariable(value = "id") String id) {
+        // 解码获得真实 id
         long[] realId = idObfuscator.decode(id, 1);
+        // realId 长度为零时混淆 id 错误
         if (realId.length > 0) {
             return iArticleService.getArticleById(realId[0]);
         }
         return UnifyResponse.fail();
     }
 
+    /**
+     * 根据页数获取文章混淆 id
+     *
+     * @param page     页数
+     * @param pageSize 页大小
+     * @return 指定页内的文章 id 列表
+     */
     @RequestMapping(value = "/getIdListPage", method = RequestMethod.POST)
     public UnifyResponse<ArticleIdListPageResult> getArticleIdListByPage(
             @RequestParam(value = "page") int page,
@@ -46,6 +63,12 @@ public class ArticleController {
         return iArticleService.getArticleIdListByPage(page, pageSize);
     }
 
+    /**
+     * 根据混淆 id 获取文章简略信息（无正文）
+     *
+     * @param id 混淆 id
+     * @return 指定文章的简略信息
+     */
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     public UnifyResponse<Article> getArticleInfoById(
             @PathVariable(value = "id") String id) {
@@ -56,6 +79,12 @@ public class ArticleController {
         return UnifyResponse.fail();
     }
 
+    /**
+     * 根据混淆 id 获取文章预览版
+     *
+     * @param id 混淆 id
+     * @return 指定预览版文章
+     */
     @RequestMapping(value = "/preview/{id}", method = RequestMethod.GET)
     public UnifyResponse<Article> getArticlePreviewById(
             @PathVariable(value = "id") String id) {
@@ -66,6 +95,16 @@ public class ArticleController {
         return UnifyResponse.fail();
     }
 
+    /**
+     * 根据混淆 id 更新文章
+     *
+     * @param id      混淆 id
+     * @param userId  混淆用户 id
+     * @param content 正文
+     * @param title   标题
+     * @param request 用于获取用户 ip
+     * @return 更新结果
+     */
     @RequestMapping(value = "/updateById", method = RequestMethod.POST)
     public UnifyResponse<String> updateArticleById(
             @RequestParam(value = "id") String id,
@@ -73,13 +112,18 @@ public class ArticleController {
             @RequestParam(value = "content") String content,
             @RequestParam(value = "title") String title,
             HttpServletRequest request) {
+        // 判断是否登录
         if (StpUtil.isLogin()) {
+            // 获取真实 id
             long[] realUserId = idObfuscator.decode(userId, 0);
             long[] realId = idObfuscator.decode(id, 1);
+
             if (realUserId.length > 0 && realId.length > 0) {
+                // 获取当前登录用户 id
                 long loginId = Long.parseLong((String) StpUtil.getLoginId());
                 if (loginId == realUserId[0]) {
                     return iArticleService.updateArticleById(realId[0], realUserId[0], content, title,
+                            // 获取 ip
                             Ip.getIpAddr(request));
                 }
             }
@@ -88,11 +132,19 @@ public class ArticleController {
         return UnifyResponse.fail("您还未登录！");
     }
 
+    /**
+     * 上传文章
+     *
+     * @param content 正文
+     * @param title   标题
+     * @return 上传结果
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public UnifyResponse<String> upload(
             @RequestParam(value = "content") String content,
             @RequestParam(value = "title") String title) {
         if (StpUtil.isLogin()) {
+            // 获取当前登录用户 id
             long loginId = Long.parseLong((String) StpUtil.getLoginId());
             return iArticleService.upload(loginId, content, title);
         }

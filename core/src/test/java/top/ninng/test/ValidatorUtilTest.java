@@ -10,6 +10,9 @@ import top.ninng.utils.Validator;
  */
 public class ValidatorUtilTest {
 
+    /**
+     * 邮箱校验测试
+     */
     @Test
     public void emailTest() {
         System.out.println(Validator.isEmail("a.@163.com"));

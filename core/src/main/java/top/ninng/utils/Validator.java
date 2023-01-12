@@ -19,8 +19,8 @@ public class Validator {
     /**
      * 检测是否为邮箱
      *
-     * @param email
-     * @return
+     * @param email 邮箱
+     * @return 是否为正确邮箱格式
      */
     public static boolean isEmail(String email) {
         return Pattern.matches(EMAIL_REGEX, email);

@@ -5,12 +5,18 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
+ * ip 处理
+ *
  * @Author OhmLaw
  * @Date 2023/1/8 14:13
  * @Version 1.0
  */
 public class Ip {
 
+    /**
+     * @param request 请求
+     * @return IP 地址
+     */
     public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = null;
         try {

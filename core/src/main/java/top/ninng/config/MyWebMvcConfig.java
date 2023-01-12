@@ -21,12 +21,22 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class MyWebMvcConfig implements WebMvcConfigurer {
 
+    /**
+     * 配置静态资源映射
+     *
+     * @param registry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("file:///" + Path.getWorkAbsolutePath() + "/data/img/");
     }
 
+    /**
+     * 配置 fastjson 为默认 json 解析器
+     *
+     * @return
+     */
     @Bean
     FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();

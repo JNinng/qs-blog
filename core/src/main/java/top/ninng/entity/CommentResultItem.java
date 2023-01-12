@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * 评论响应实体
+ *
  * @Author OhmLaw
  * @Date 2023/1/11 19:21
  * @Version 1.0
