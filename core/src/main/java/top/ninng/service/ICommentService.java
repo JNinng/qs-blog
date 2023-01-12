@@ -26,7 +26,7 @@ public interface ICommentService {
                                   Long articleId, Long userId, Long parentId, String ip);
 
     /**
-     * 根据评论 id 获取子评论
+     * 根据评论 id 获取子评论信息
      *
      * @param id
      * @return
@@ -42,7 +42,7 @@ public interface ICommentService {
     UnifyResponse<ArrayList<CommentResultItem>> getCommentByArticleId(Long articleId);
 
     /**
-     * 根据评论 id 获取评论
+     * 根据评论 id 获取评论信息
      *
      * @param id
      * @return

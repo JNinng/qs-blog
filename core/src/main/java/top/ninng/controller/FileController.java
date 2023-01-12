@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 
 /**
+ * 文件控制器
+ *
  * @Author OhmLaw
  * @Date 2023/1/8 20:06
  * @Version 1.0
@@ -26,6 +28,13 @@ public class FileController {
         this.iFileService = iFileService;
     }
 
+    /**
+     * 文件服务，获取图片
+     *
+     * @param name     图片名
+     * @param response 响应
+     * @return 指定图片
+     */
     @RequestMapping(value = "/image/{name}", method = RequestMethod.GET)
     public BufferedImage getImage(
             @PathVariable(value = "name") String name,
@@ -33,6 +42,12 @@ public class FileController {
         return iFileService.getImage(name, response);
     }
 
+    /**
+     * 上传文件
+     *
+     * @param files 上传目标文件
+     * @return 上传结果
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public UnifyResponse<String> upload(
             @RequestParam(value = "files") MultipartFile[] files) {
