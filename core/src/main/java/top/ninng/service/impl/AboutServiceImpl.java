@@ -8,6 +8,8 @@ import top.ninng.utils.EmptyCheck;
 import top.ninng.utils.GetConfig;
 
 /**
+ * “关于”服务实现类
+ *
  * @Author OhmLaw
  * @Date 2023/1/11 16:00
  * @Version 1.0
@@ -20,12 +22,18 @@ public class AboutServiceImpl implements IAboutService {
 
     public AboutServiceImpl(GetConfig getConfig) {
         this.getConfig = getConfig;
+        // 从数据库获取“关于”信息
         aboutResult = new AboutResult(
                 getConfig.map().get("INFO"),
                 getConfig.map().get("EMAIL"),
                 getConfig.map().get("HEAD_PORTRAIT"));
     }
 
+    /**
+     * 获取关于信息
+     *
+     * @return 关于信息
+     */
     @Override
     public UnifyResponse<AboutResult> getInfo() {
         if (EmptyCheck.notEmpty(aboutResult)) {
