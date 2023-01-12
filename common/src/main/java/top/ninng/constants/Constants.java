@@ -1,6 +1,8 @@
 package top.ninng.constants;
 
 /**
+ * 常量
+ *
  * @Author OhmLaw
  * @Date 2022/12/29 16:11
  * @Version 1.0
