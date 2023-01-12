@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * 文章列表页返回
+ * 文章列表页响应实体
  *
  * @Author OhmLaw
  * @Date 2023/1/7 21:00

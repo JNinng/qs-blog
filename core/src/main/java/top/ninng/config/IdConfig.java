@@ -12,10 +12,24 @@ import top.ninng.utils.IdObfuscator;
 @Configuration
 public class IdConfig {
 
+    /**
+     * user id 混淆模式索引
+     */
     public static int USER_ID = 0;
+    /**
+     * article id 混淆模式索引
+     */
     public static int ARTICLE_ID = 1;
+    /**
+     * comment id 混淆模式索引
+     */
     public static int COMMENT_ID = 2;
 
+    /**
+     * 获取混淆器
+     *
+     * @return id 混淆器
+     */
     @Bean
     public IdObfuscator getIdObfuscator() {
         return new IdObfuscator().init(

@@ -20,6 +20,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 文件服务实现类
+ *
  * @Author OhmLaw
  * @Date 2023/1/9 14:30
  * @Version 1.0
@@ -32,10 +34,19 @@ public class FileServiceImpl implements IFileService {
     String defaultName = "问号-1caa408d-3203-4a84-8b28-ea254c94a2be.png";
     String defaultImagePath = imgPath + defaultName;
 
+    /**
+     * 获取图片
+     *
+     * @param name     图片名
+     * @param response 响应
+     * @return 图片
+     */
     @Override
     public BufferedImage getImage(String name, HttpServletResponse response) {
+        // 创建文件对象
         File imageFile = new File(imgPath + name);
         if (!imageFile.exists()) {
+            // 指定图片不存在时，响应默认图片
             imageFile = new File(defaultImagePath);
             name = defaultName;
         }
@@ -44,6 +55,8 @@ public class FileServiceImpl implements IFileService {
         try {
             inputStream = new FileInputStream(imageFile);
             BufferedImage image = ImageIO.read(inputStream);
+
+            // 获取输出流
             outputStream = response.getOutputStream();
 
             Matcher matcher = pattern.matcher(name);
@@ -71,15 +84,23 @@ public class FileServiceImpl implements IFileService {
         return null;
     }
 
+    /**
+     * 上传文件
+     *
+     * @param files 文件名
+     * @return 上传结果
+     */
     @Override
     public UnifyResponse<String> upload(MultipartFile[] files) {
         for (MultipartFile file : files) {
             if (EmptyCheck.isEmpty(file) || file.isEmpty()) {
                 return UnifyResponse.fail("上传文件为空！");
             }
+            // 文件后缀
             String suffix =
                     Objects.requireNonNull(file.getOriginalFilename())
                             .substring(file.getOriginalFilename().lastIndexOf("."));
+            // 文件名加 UUID 处理
             String name = Objects.requireNonNull(file.getOriginalFilename())
                     .substring(0, file.getOriginalFilename().lastIndexOf("."));
             String newFileName = name + "-" + UUID.randomUUID() + suffix;

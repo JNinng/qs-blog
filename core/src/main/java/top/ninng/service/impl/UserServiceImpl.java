@@ -11,6 +11,8 @@ import top.ninng.utils.EmptyCheck;
 import top.ninng.utils.IdObfuscator;
 
 /**
+ * 用户服务实现类
+ *
  * @Author OhmLaw
  * @Date 2023/1/2 16:37
  * @Version 1.0
@@ -26,8 +28,16 @@ public class UserServiceImpl implements IUserService {
         this.idObfuscator = idObfuscator;
     }
 
+    /**
+     * 检查登录状态
+     *
+     * @param id 目标用户 id
+     * @return 登录状态
+     */
     @Override
     public UnifyResponse<String> checkLogin(long id) {
+        // TODO 登录状态逻辑
+        // 根据 id 获取目标 token
         String tokenValueByLoginId = StpUtil.getTokenValueByLoginId(id);
         Object result = StpUtil.getLoginIdByToken(tokenValueByLoginId);
         System.out.println(result);
@@ -40,6 +50,13 @@ public class UserServiceImpl implements IUserService {
         return UnifyResponse.ok(id + " 未登录！");
     }
 
+    /**
+     * 用户登录
+     *
+     * @param name     名称
+     * @param password 密码
+     * @return 登录结果
+     */
     @Override
     public UnifyResponse<LoginResult> login(String name, String password) {
         User selectUser = userMapper.selectByName(name);
@@ -54,6 +71,11 @@ public class UserServiceImpl implements IUserService {
         return UnifyResponse.fail("账号或密码错误！", null);
     }
 
+    /**
+     * 登出
+     *
+     * @return 登出结果
+     */
     @Override
     public UnifyResponse<String> logout() {
         StpUtil.logout();
