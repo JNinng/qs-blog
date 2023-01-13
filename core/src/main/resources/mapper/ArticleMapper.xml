@@ -62,7 +62,7 @@
         , status, stick, site, ip)
         values ( #{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
                , #{updateTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=BIT}, #{content,jdbcType=VARCHAR}
-               , #{title,jdbcType=VARCHAR}, #{pageView,jdbcType=INTEGER}, #{like,jdbcType=INTEGER}
+               , #{title,jdbcType=VARCHAR}, #{pageView,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}
                , #{status,jdbcType=TINYINT}, #{stick,jdbcType=INTEGER}, #{site,jdbcType=VARCHAR}
                , #{ip,jdbcType=VARCHAR})
     </insert>

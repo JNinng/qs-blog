@@ -156,6 +156,7 @@ public class ArticleServiceImpl implements IArticleService {
         article.setPageView(0);
         article.setLikeNum(0);
         article.setStatus(0);
+        article.setStick(0);
         // 持久层数据插入
         int result = articleMapper.insert(article);
         if (result > 0) {
