@@ -10,7 +10,9 @@ import java.util.Date;
  * @TableName tag
  */
 public class Tag implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = -2806251614764202221L;
+
     /**
      * 标签id
      */
