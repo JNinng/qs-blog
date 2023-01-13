@@ -1,5 +1,7 @@
 package top.ninng.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,22 +18,36 @@ public class Tag implements Serializable {
     /**
      * 标签id
      */
+    @JSONField(serialize = false)
     private Integer id;
+
+    /**
+     * 混淆标签 id
+     */
+    @JSONField(name = "id")
+    private String obfuscatorId;
+
     /**
      * 标签名
      */
     private String name;
+
     /**
      * 创建时间
      */
+    @JSONField(serialize = false)
     private Date createTime;
+
     /**
      * 修改时间
      */
+    @JSONField(serialize = false)
     private Date updateTime;
+
     /**
      * 删除状态
      */
+    @JSONField(serialize = false)
     private Boolean deleteStatus;
 
     /**
@@ -90,6 +106,14 @@ public class Tag implements Serializable {
         this.name = name;
     }
 
+    public String getObfuscatorId() {
+        return obfuscatorId;
+    }
+
+    public void setObfuscatorId(String obfuscatorId) {
+        this.obfuscatorId = obfuscatorId;
+    }
+
     /**
      * 修改时间
      */
@@ -140,17 +164,13 @@ public class Tag implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", deleteStatus=").append(deleteStatus);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "Tag{" +
+                "id=" + id +
+                ", obfuscatorId='" + obfuscatorId + '\'' +
+                ", name='" + name + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteStatus=" + deleteStatus +
+                '}';
     }
 }
