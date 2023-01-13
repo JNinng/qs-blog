@@ -1,6 +1,9 @@
 package top.ninng.mapper;
 
+import org.springframework.stereotype.Repository;
 import top.ninng.entity.ArticleTag;
+
+import java.util.ArrayList;
 
 /**
  * @author OhmLaw
@@ -8,6 +11,7 @@ import top.ninng.entity.ArticleTag;
  * @createDate 2023-01-13 19:21:58
  * @Entity top.ninng.entity.ArticleTag
  */
+@Repository("articleTagMapper")
 public interface ArticleTagMapper {
 
     /**
@@ -33,6 +37,16 @@ public interface ArticleTagMapper {
      * @return 插入结果
      */
     int insertSelective(ArticleTag record);
+
+    /**
+     * 根据标签 id 分页查询
+     *
+     * @param id 标签 id
+     * @param l  左边界
+     * @param r  右边界
+     * @return 分页查询 id 结果列表
+     */
+    ArrayList<Long> selectArticleIdListByPageByName(Long id, int l, int r);
 
     /**
      * 根据文章标签关系 id 查询

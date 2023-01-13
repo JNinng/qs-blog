@@ -21,6 +21,13 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
+    <select id="selectArticleIdListByPageByName" resultType="java.lang.Long">
+        select id
+        from article_tag
+        where tag_id = #{id,jdbcType=INTEGER}
+        limit #{l,jdbcType=INTEGER},#{r,jdbcType=INTEGER}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
         from article_tag
