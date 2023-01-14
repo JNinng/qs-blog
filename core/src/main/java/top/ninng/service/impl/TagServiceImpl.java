@@ -47,6 +47,8 @@ public class TagServiceImpl implements ITagService {
         tag.setCreateTime(new Timestamp(System.currentTimeMillis()));
         tag.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         tag.setDeleteStatus(false);
+        tag.setType(0);
+        tag.setStatus(0);
         if (tagMapper.insert(tag) > 0) {
             return UnifyResponse.ok("添加成功！");
         }
@@ -160,6 +162,7 @@ public class TagServiceImpl implements ITagService {
         Tag tag = new Tag();
         tag.setId(Math.toIntExact(id));
         tag.setName(tagName);
+        tag.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (tagMapper.updateByPrimaryKey(tag) > 0) {
             return UnifyResponse.ok("更新成功！");
         }

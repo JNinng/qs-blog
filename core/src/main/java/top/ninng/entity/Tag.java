@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Tag implements Serializable {
 
-    private static final long serialVersionUID = -2806251614764202221L;
+    private static final long serialVersionUID = -2803968377295465601L;
 
     /**
      * 标签id
@@ -49,6 +49,16 @@ public class Tag implements Serializable {
      */
     @JSONField(serialize = false)
     private Boolean deleteStatus;
+
+    /**
+     * 标签类型
+     */
+    private Integer type;
+
+    /**
+     * 标签状态
+     */
+    private Integer status;
 
     /**
      * 创建时间
@@ -114,6 +124,22 @@ public class Tag implements Serializable {
         this.obfuscatorId = obfuscatorId;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     /**
      * 修改时间
      */
@@ -137,6 +163,8 @@ public class Tag implements Serializable {
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteStatus() == null) ? 0 : getDeleteStatus().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;
     }
 
@@ -159,7 +187,9 @@ public class Tag implements Serializable {
                 && (this.getUpdateTime() == null ? other.getUpdateTime() == null :
                 this.getUpdateTime().equals(other.getUpdateTime()))
                 && (this.getDeleteStatus() == null ? other.getDeleteStatus() == null :
-                this.getDeleteStatus().equals(other.getDeleteStatus()));
+                this.getDeleteStatus().equals(other.getDeleteStatus()))
+                && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
 
     @Override
@@ -171,6 +201,8 @@ public class Tag implements Serializable {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", deleteStatus=" + deleteStatus +
+                ", type=" + type +
+                ", status=" + status +
                 '}';
     }
 }
