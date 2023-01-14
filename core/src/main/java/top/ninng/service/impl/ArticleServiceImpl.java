@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import top.ninng.config.IdConfig;
 import top.ninng.entity.Article;
 import top.ninng.entity.ArticleIdListPageResult;
+import top.ninng.entity.ArticleTimelineMonthResult;
 import top.ninng.entity.UnifyResponse;
 import top.ninng.mapper.ArticleMapper;
 import top.ninng.service.IArticleService;
@@ -11,6 +12,8 @@ import top.ninng.utils.IdObfuscator;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -108,6 +111,20 @@ public class ArticleServiceImpl implements IArticleService {
             article.setContent("");
         }
         return UnifyResponse.ok(article);
+    }
+
+    @Override
+    public UnifyResponse<ArticleTimelineMonthResult> getArticleTimelineMonthResult(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        ArrayList<String> collect = articleMapper.getArticleIdListByMonth(
+                String.valueOf(calendar.get(Calendar.YEAR)),
+                String.valueOf(calendar.get(Calendar.MONTH) + 1))
+                .stream()
+                .map(aLong -> idObfuscator.encode(Math.toIntExact(aLong), IdConfig.ARTICLE_ID))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        return UnifyResponse.ok(new ArticleTimelineMonthResult(date, collect));
     }
 
     /**
