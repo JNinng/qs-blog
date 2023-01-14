@@ -23,6 +23,15 @@ public interface ArticleMapper {
     int deleteByPrimaryKey(Long id);
 
     /**
+     * 根据年月查询文章
+     *
+     * @param year  年
+     * @param month 月
+     * @return id 列表
+     */
+    ArrayList<Long> getArticleIdListByMonth(String year, String month);
+
+    /**
      * 插入完整文章信息
      *
      * @param article 文章
