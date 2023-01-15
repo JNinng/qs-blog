@@ -1,15 +1,18 @@
 package top.ninng.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import top.ninng.entity.Article;
 import top.ninng.entity.ArticleIdListPageResult;
+import top.ninng.entity.ArticleTimelineMonthResult;
 import top.ninng.entity.UnifyResponse;
 import top.ninng.service.IArticleService;
 import top.ninng.utils.IdObfuscator;
 import top.ninng.utils.Ip;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * 文章控制器
@@ -93,6 +96,13 @@ public class ArticleController {
             return iArticleService.getArticlePreviewById(realId[0]);
         }
         return UnifyResponse.fail();
+    }
+
+    @RequestMapping(value = "/timeline", method = RequestMethod.POST)
+    public UnifyResponse<ArticleTimelineMonthResult> getArticleTimelineMonthResult(
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+        System.out.println(date);
+        return iArticleService.getArticleTimelineMonthResult(date);
     }
 
     /**

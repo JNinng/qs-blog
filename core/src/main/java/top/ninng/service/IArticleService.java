@@ -2,7 +2,10 @@ package top.ninng.service;
 
 import top.ninng.entity.Article;
 import top.ninng.entity.ArticleIdListPageResult;
+import top.ninng.entity.ArticleTimelineMonthResult;
 import top.ninng.entity.UnifyResponse;
+
+import java.util.Date;
 
 /**
  * 文章服务接口
@@ -45,6 +48,14 @@ public interface IArticleService {
      * @return 指定文章预览版
      */
     UnifyResponse<Article> getArticlePreviewById(long id);
+
+    /**
+     * 时间线，根据月份查询文章
+     *
+     * @param date 时间
+     * @return 指定月份文章
+     */
+    UnifyResponse<ArticleTimelineMonthResult> getArticleTimelineMonthResult(Date date);
 
     /**
      * 根据 id 更新文章
