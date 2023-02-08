@@ -26,12 +26,12 @@ public class ArticleTimelineMonthResult implements Serializable {
     /**
      * 文章混淆 id 列表
      */
-    ArrayList<String> idList;
+    ArrayList<TimelineMonthItem> idList;
 
     public ArticleTimelineMonthResult() {
     }
 
-    public ArticleTimelineMonthResult(Date date, ArrayList<String> idList) {
+    public ArticleTimelineMonthResult(Date date, ArrayList<TimelineMonthItem> idList) {
         this.date = date;
         this.idList = idList;
     }
@@ -44,11 +44,11 @@ public class ArticleTimelineMonthResult implements Serializable {
         this.date = date;
     }
 
-    public ArrayList<String> getIdList() {
+    public ArrayList<TimelineMonthItem> getIdList() {
         return idList;
     }
 
-    public void setIdList(ArrayList<String> idList) {
+    public void setIdList(ArrayList<TimelineMonthItem> idList) {
         this.idList = idList;
     }
 }

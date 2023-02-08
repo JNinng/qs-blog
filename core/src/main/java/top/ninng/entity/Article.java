@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Article implements Serializable {
 
-    private static final long serialVersionUID = 4902844961144693906L;
+    private static final long serialVersionUID = 5699480760312845950L;
 
     /**
      * 文章id
@@ -80,6 +80,10 @@ public class Article implements Serializable {
      * 发布ip
      */
     private String ip;
+    /**
+     * 是否有预览内容
+     */
+    private Integer mode;
 
     /**
      * md原文
@@ -157,6 +161,20 @@ public class Article implements Serializable {
      */
     public void setLikeNum(Integer likeNum) {
         this.likeNum = likeNum;
+    }
+
+    /**
+     * 是否有预览内容
+     */
+    public Integer getMode() {
+        return mode;
+    }
+
+    /**
+     * 是否有预览内容
+     */
+    public void setMode(Integer mode) {
+        this.mode = mode;
     }
 
     public String getObfuscatorId() {
@@ -284,6 +302,7 @@ public class Article implements Serializable {
         result = prime * result + ((getStick() == null) ? 0 : getStick().hashCode());
         result = prime * result + ((getSite() == null) ? 0 : getSite().hashCode());
         result = prime * result + ((getIp() == null) ? 0 : getIp().hashCode());
+        result = prime * result + ((getMode() == null) ? 0 : getMode().hashCode());
         return result;
     }
 
@@ -317,7 +336,8 @@ public class Article implements Serializable {
                 && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
                 && (this.getStick() == null ? other.getStick() == null : this.getStick().equals(other.getStick()))
                 && (this.getSite() == null ? other.getSite() == null : this.getSite().equals(other.getSite()))
-                && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()));
+                && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()))
+                && (this.getMode() == null ? other.getMode() == null : this.getMode().equals(other.getMode()));
     }
 
     @Override
@@ -338,6 +358,7 @@ public class Article implements Serializable {
                 ", stick=" + stick +
                 ", site='" + site + '\'' +
                 ", ip='" + ip + '\'' +
+                ", mode=" + mode +
                 '}';
     }
 }

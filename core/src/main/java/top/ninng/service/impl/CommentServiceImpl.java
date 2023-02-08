@@ -33,6 +33,7 @@ public class CommentServiceImpl implements ICommentService {
     IdObfuscator idObfuscator;
     GetConfig getConfig;
     int maxCommentLength;
+    long defaultCommentId;
 
     public CommentServiceImpl(CommentMapper commentMapper, UserMapper userMapper,
                               IdObfuscator idObfuscator, GetConfig getConfig) {
@@ -42,6 +43,8 @@ public class CommentServiceImpl implements ICommentService {
         this.getConfig = getConfig;
         // 从数据库获取配置信息
         maxCommentLength = Integer.parseInt(getConfig.map().get("COMMENT_LENGTH"));
+        // 从数据库中读取游客用户默认 id
+        defaultCommentId = Long.parseLong(getConfig.map().get("DEFAULT_COMMENT_USER_ID"));
     }
 
     /**
@@ -59,7 +62,7 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public UnifyResponse<String> comment(String name, String email, String content,
                                          Long articleId, Long userId, Long parentId, String ip) {
-        if (userId != -1) {
+        if (userId != defaultCommentId) {
             // 登录用户评论处理
             User user = userMapper.selectByPrimaryKey(userId);
             name = user.getUserName();
@@ -81,13 +84,13 @@ public class CommentServiceImpl implements ICommentService {
                 comment.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 // 持久层数据插入
                 if ((commentMapper.insertSelective(comment) > 0)) {
-                    return UnifyResponse.ok("评论成功！");
+                    return UnifyResponse.ok("评论成功！", null);
                 }
-                return UnifyResponse.ok("评论失败！");
+                return UnifyResponse.ok("评论失败！", null);
             }
-            return UnifyResponse.fail("评论过长！");
+            return UnifyResponse.fail("评论过长！", null);
         }
-        return UnifyResponse.fail("邮箱错误！");
+        return UnifyResponse.fail("邮箱错误！", null);
     }
 
     /**

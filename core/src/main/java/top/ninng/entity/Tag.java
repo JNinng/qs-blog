@@ -51,10 +51,13 @@ public class Tag implements Serializable {
     private Boolean deleteStatus;
 
     /**
+     * 标记文章数量
+     */
+    private Integer sum;
+    /**
      * 标签类型
      */
     private Integer type;
-
     /**
      * 标签状态
      */
@@ -132,6 +135,14 @@ public class Tag implements Serializable {
         this.status = status;
     }
 
+    public Integer getSum() {
+        return sum;
+    }
+
+    public void setSum(Integer sum) {
+        this.sum = sum;
+    }
+
     public Integer getType() {
         return type;
     }
@@ -165,6 +176,7 @@ public class Tag implements Serializable {
         result = prime * result + ((getDeleteStatus() == null) ? 0 : getDeleteStatus().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getSum() == null) ? 0 : getSum().hashCode());
         return result;
     }
 
@@ -189,7 +201,8 @@ public class Tag implements Serializable {
                 && (this.getDeleteStatus() == null ? other.getDeleteStatus() == null :
                 this.getDeleteStatus().equals(other.getDeleteStatus()))
                 && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getSum() == null ? other.getSum() == null : this.getSum().equals(other.getSum()));
     }
 
     @Override
@@ -201,6 +214,7 @@ public class Tag implements Serializable {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", deleteStatus=" + deleteStatus +
+                ", sum=" + sum +
                 ", type=" + type +
                 ", status=" + status +
                 '}';

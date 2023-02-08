@@ -2,10 +2,7 @@ package top.ninng.service.impl;
 
 import org.springframework.stereotype.Service;
 import top.ninng.config.IdConfig;
-import top.ninng.entity.Article;
-import top.ninng.entity.ArticleIdListPageResult;
-import top.ninng.entity.ArticleTimelineMonthResult;
-import top.ninng.entity.UnifyResponse;
+import top.ninng.entity.*;
 import top.ninng.mapper.ArticleMapper;
 import top.ninng.service.IArticleService;
 import top.ninng.utils.IdObfuscator;
@@ -61,12 +58,16 @@ public class ArticleServiceImpl implements IArticleService {
     public UnifyResponse<ArticleIdListPageResult> getArticleIdListByPage(int page, int pageSize) {
         // 处理网页分页逻辑和数据库分页查询逻辑
         page = (page <= 0) ? 1 : page;
-        ArrayList<String> articleIdList =
+        ArrayList<ArticleIdAndTitle> articleIdList =
                 articleMapper.selectArticleIdListByPage((page - 1) * pageSize, pageSize)
                         //查询结果处理
                         .stream()
                         // id 混淆
-                        .map(aLong -> idObfuscator.encode(Math.toIntExact(aLong), 1))
+                        .map(aLong -> {
+                            ArticleIdAndTitle articleIdAndTitle = articleMapper.selectTitleAndDateByPrimaryKey(aLong);
+                            articleIdAndTitle.setId(idObfuscator.encode(Math.toIntExact(aLong), IdConfig.ARTICLE_ID));
+                            return articleIdAndTitle;
+                        })
                         // 转化为列表
                         .collect(Collectors.toCollection(ArrayList::new));
         return UnifyResponse.ok(new ArticleIdListPageResult(articleIdList, page, pageSize));
@@ -106,7 +107,7 @@ public class ArticleServiceImpl implements IArticleService {
         // 文章信息预览处理
         String content = article.getContent();
         if (content.indexOf("<!-- more -->") > 0) {
-            article.setContent(content.split("<!-- more -->\n")[0]);
+            article.setContent(content.split("<!-- more -->")[0]);
         } else {
             article.setContent("");
         }
@@ -117,11 +118,12 @@ public class ArticleServiceImpl implements IArticleService {
     public UnifyResponse<ArticleTimelineMonthResult> getArticleTimelineMonthResult(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        ArrayList<String> collect = articleMapper.getArticleIdListByMonth(
+        ArrayList<TimelineMonthItem> collect = articleMapper.getArticleIdListByMonth(
                 String.valueOf(calendar.get(Calendar.YEAR)),
                 String.valueOf(calendar.get(Calendar.MONTH) + 1))
                 .stream()
-                .map(aLong -> idObfuscator.encode(Math.toIntExact(aLong), IdConfig.ARTICLE_ID))
+                .peek(aItem -> aItem.setObfuscatorId(
+                        idObfuscator.encode(Math.toIntExact(aItem.getId()), IdConfig.ARTICLE_ID)))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         return UnifyResponse.ok(new ArticleTimelineMonthResult(date, collect));
@@ -174,6 +176,7 @@ public class ArticleServiceImpl implements IArticleService {
         article.setLikeNum(0);
         article.setStatus(0);
         article.setStick(0);
+        article.setMode(article.getContent().contains("<!-- more -->") ? 1 : 0);
         // 持久层数据插入
         int result = articleMapper.insert(article);
         if (result > 0) {

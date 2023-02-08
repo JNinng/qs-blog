@@ -2,6 +2,8 @@ package top.ninng.mapper;
 
 import org.springframework.stereotype.Repository;
 import top.ninng.entity.Article;
+import top.ninng.entity.ArticleIdAndTitle;
+import top.ninng.entity.TimelineMonthItem;
 
 import java.util.ArrayList;
 
@@ -29,7 +31,7 @@ public interface ArticleMapper {
      * @param month 月
      * @return id 列表
      */
-    ArrayList<Long> getArticleIdListByMonth(String year, String month);
+    ArrayList<TimelineMonthItem> getArticleIdListByMonth(String year, String month);
 
     /**
      * 插入完整文章信息
@@ -63,6 +65,14 @@ public interface ArticleMapper {
      * @return 文章信息
      */
     Article selectByPrimaryKey(Long id);
+
+    /**
+     * 根据文章 id 查询标题
+     *
+     * @param id 文章 id
+     * @return 文章标题
+     */
+    ArticleIdAndTitle selectTitleAndDateByPrimaryKey(Long id);
 
     /**
      * 根据 id 查找所属用户
