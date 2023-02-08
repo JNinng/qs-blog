@@ -57,6 +57,14 @@ public interface ArticleTagMapper {
     ArticleTag selectByPrimaryKey(Long id);
 
     /**
+     * 根据标签 id 查询所标记的文章数
+     *
+     * @param tagId 标签 id
+     * @return 标签标记的文章数量
+     */
+    int selectCountByTag(Long tagId);
+
+    /**
      * 根据 id 更新文章标签关系
      *
      * @param record 文章标签关系 id
@@ -71,5 +79,4 @@ public interface ArticleTagMapper {
      * @return 更新结果
      */
     int updateByPrimaryKeySelective(ArticleTag record);
-
 }

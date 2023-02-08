@@ -1,10 +1,13 @@
 package top.ninng.service.impl;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import top.ninng.config.IdConfig;
+import top.ninng.entity.ArticleIdAndTitle;
 import top.ninng.entity.ArticleIdListPageResult;
 import top.ninng.entity.Tag;
 import top.ninng.entity.UnifyResponse;
+import top.ninng.mapper.ArticleMapper;
 import top.ninng.mapper.ArticleTagMapper;
 import top.ninng.mapper.TagMapper;
 import top.ninng.service.ITagService;
@@ -13,6 +16,8 @@ import top.ninng.utils.IdObfuscator;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -25,12 +30,17 @@ public class TagServiceImpl implements ITagService {
 
     TagMapper tagMapper;
     ArticleTagMapper articleTagMapper;
+    ArticleMapper articleMapper;
     IdObfuscator idObfuscator;
+    RedisTemplate<Object, Object> redisTemplate;
 
-    public TagServiceImpl(TagMapper tagMapper, ArticleTagMapper articleTagMapper, IdObfuscator idObfuscator) {
+    public TagServiceImpl(TagMapper tagMapper, ArticleTagMapper articleTagMapper, ArticleMapper articleMapper,
+                          IdObfuscator idObfuscator, RedisTemplate<Object, Object> redisTemplate) {
         this.tagMapper = tagMapper;
         this.articleTagMapper = articleTagMapper;
+        this.articleMapper = articleMapper;
         this.idObfuscator = idObfuscator;
+        this.redisTemplate = redisTemplate;
     }
 
     /**
@@ -90,14 +100,23 @@ public class TagServiceImpl implements ITagService {
      */
     @Override
     public UnifyResponse<ArrayList<Tag>> getAllTag() {
+        ArrayList<Tag> arrayList = (ArrayList<Tag>) redisTemplate.opsForValue().get("allTag");
+        if (EmptyCheck.notEmpty(arrayList)) {
+            return UnifyResponse.ok(arrayList);
+        }
         // 持久层数据查询
         ArrayList<Tag> tagList = tagMapper.selectAll();
+        tagList = tagList.stream()
+                .peek((tag -> tag.setSum(articleTagMapper.selectCountByTag(Long.valueOf(tag.getId())))))
+                .sorted(Comparator.comparing(Tag::getSum).reversed())
+                .collect(Collectors.toCollection(ArrayList::new));
         if (EmptyCheck.notEmpty(tagList)) {
             tagList = tagList.stream()
                     // id 混淆
                     .peek(this::obfuscatorId)
                     // 转化列表输出
                     .collect(Collectors.toCollection(ArrayList::new));
+            redisTemplate.opsForValue().set("allTag", tagList, 60, TimeUnit.SECONDS);
             return UnifyResponse.ok(tagList);
         }
         return UnifyResponse.ok("暂无标签！", null);
@@ -124,9 +143,15 @@ public class TagServiceImpl implements ITagService {
                     (page - 1) * pageSize, pageSize);
             if (EmptyCheck.notEmpty(longArrayList) && longArrayList.size() > 0) {
                 // 结果处理
-                ArrayList<String> collect = longArrayList.stream()
+                ArrayList<ArticleIdAndTitle> collect = longArrayList.stream()
                         // id 混淆
-                        .map(aLong1 -> idObfuscator.encode(Math.toIntExact(aLong1), IdConfig.TAG_ID))
+                        .map(aLong1 -> {
+                            ArticleIdAndTitle articleIdAndTitle = articleMapper.selectTitleAndDateByPrimaryKey(aLong1);
+                            articleIdAndTitle.setId(idObfuscator.encode(Math.toIntExact(aLong1
+                            ), IdConfig.ARTICLE_ID));
+                            return articleIdAndTitle;
+                        })
+                        .sorted(Comparator.comparing(ArticleIdAndTitle::getDate).reversed())
                         // 转换输出列表
                         .collect(Collectors.toCollection(ArrayList::new));
                 return UnifyResponse.ok(new ArticleIdListPageResult(collect, page, pageSize));
