@@ -57,6 +57,14 @@ public class Comment implements Serializable {
     @JSONField(name = "parentId")
     private String obfuscatorParentId;
     /**
+     * 父评论用户名
+     */
+    private String toName;
+    /**
+     * 用户头像
+     */
+    private String headPortrait;
+    /**
      * 创建时间
      */
     private Date createTime;
@@ -161,6 +169,14 @@ public class Comment implements Serializable {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getHeadPortrait() {
+        return headPortrait;
+    }
+
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
     }
 
     /**
@@ -279,6 +295,14 @@ public class Comment implements Serializable {
         this.status = status;
     }
 
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
+
     /**
      * 修改时间
      */
@@ -324,6 +348,8 @@ public class Comment implements Serializable {
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getSite() == null) ? 0 : getSite().hashCode());
         result = prime * result + ((getIp() == null) ? 0 : getIp().hashCode());
+        result = prime * result + ((getHeadPortrait() == null) ? 0 : getHeadPortrait().hashCode());
+        result = prime * result + ((getToName() == null) ? 0 : getToName().hashCode());
         return result;
     }
 
@@ -357,30 +383,34 @@ public class Comment implements Serializable {
                 && (this.getContent() == null ? other.getContent() == null :
                 this.getContent().equals(other.getContent()))
                 && (this.getSite() == null ? other.getSite() == null : this.getSite().equals(other.getSite()))
-                && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()));
+                && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()))
+                && (this.getHeadPortrait() == null ? other.getHeadPortrait() == null :
+                this.getHeadPortrait().equals(other.getHeadPortrait()))
+                && (this.getToName() == null ? other.getToName() == null : this.getToName().equals(other.getToName()));
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", userId=").append(userId);
-        sb.append(", articleId=").append(articleId);
-        sb.append(", parentId=").append(parentId);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", deleteStatus=").append(deleteStatus);
-        sb.append(", status=").append(status);
-        sb.append(", name=").append(name);
-        sb.append(", email=").append(email);
-        sb.append(", content=").append(content);
-        sb.append(", site=").append(site);
-        sb.append(", ip=").append(ip);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "Comment{" +
+                "id=" + id +
+                ", obfuscatorId='" + obfuscatorId + '\'' +
+                ", userId=" + userId +
+                ", obfuscatorUserId='" + obfuscatorUserId + '\'' +
+                ", articleId=" + articleId +
+                ", obfuscatorArticleId='" + obfuscatorArticleId + '\'' +
+                ", parentId=" + parentId +
+                ", obfuscatorParentId='" + obfuscatorParentId + '\'' +
+                ", toName='" + toName + '\'' +
+                ", headPortrait='" + headPortrait + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteStatus=" + deleteStatus +
+                ", status=" + status +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", content='" + content + '\'' +
+                ", site='" + site + '\'' +
+                ", ip='" + ip + '\'' +
+                '}';
     }
 }

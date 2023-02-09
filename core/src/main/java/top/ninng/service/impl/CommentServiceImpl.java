@@ -125,6 +125,7 @@ public class CommentServiceImpl implements ICommentService {
                 .filter(comment -> comment.getParentId() == -1)
                 // id 混淆处理
                 .peek(this::obfuscatorId)
+                .peek(this::setHeadPortrait)
                 // 重新封装响应
                 .map(comment -> new CommentResultItem(comment, null))
                 // 转化输出列表
@@ -132,18 +133,31 @@ public class CommentServiceImpl implements ICommentService {
         // 处理根评论的一级子评论
         commentsResultList = commentsResultList.stream().peek(commentResultItem -> {
             ArrayList<Comment> commentsTemp =
-                    comments.stream()
-                            // 在当前文章下所有评论中查询子评论
-                            .filter(comment -> comment.getParentId().equals(commentResultItem.getComment().getId()))
-                            // id 混淆处理
+                    commentMapper.selectCommentByParentId(Long.valueOf(commentResultItem.getComment().getId()))
+                            .stream()
                             .peek(this::obfuscatorId)
-                            // 转换输出列表
+                            .peek(this::setToName)
                             .collect(Collectors.toCollection(ArrayList::new));
             if (EmptyCheck.notEmpty(commentsTemp)) {
                 // 赋值子评论列表
                 commentResultItem.setChildCommentList(commentsTemp);
             }
         }).collect(Collectors.toCollection(ArrayList::new));
+        //        commentsResultList = commentsResultList.stream().peek(commentResultItem -> {
+        //            ArrayList<Comment> commentsTemp =
+        //                    comments.stream()
+        //                            // 在当前文章下所有评论中查询子评论
+        //                            .filter(comment -> comment.getParentId().equals(commentResultItem.getComment()
+        //                            .getId()))
+        //                            // id 混淆处理
+        //                            .peek(this::obfuscatorId)
+        //                            // 转换输出列表
+        //                            .collect(Collectors.toCollection(ArrayList::new));
+        //            if (EmptyCheck.notEmpty(commentsTemp)) {
+        //                // 赋值子评论列表
+        //                commentResultItem.setChildCommentList(commentsTemp);
+        //            }
+        //        }).collect(Collectors.toCollection(ArrayList::new));
         if (EmptyCheck.notEmpty(comments)) {
             return UnifyResponse.ok(commentsResultList);
         }
@@ -185,5 +199,23 @@ public class CommentServiceImpl implements ICommentService {
         comment.setObfuscatorArticleId(idObfuscator.encode(comment.getArticleId(), IdConfig.ARTICLE_ID));
         comment.setObfuscatorParentId(idObfuscator.encode(comment.getParentId(), IdConfig.COMMENT_ID));
         comment.setObfuscatorUserId(idObfuscator.encode(comment.getUserId(), IdConfig.USER_ID));
+    }
+
+    /**
+     * 设置评论用户头像
+     *
+     * @param comment 评论
+     */
+    private void setHeadPortrait(Comment comment) {
+        comment.setHeadPortrait(userMapper.selectByPrimaryKey(Long.valueOf(comment.getUserId())).getHeadPortrait());
+    }
+
+    /**
+     * 设置父评论用户名
+     *
+     * @param comment
+     */
+    private void setToName(Comment comment) {
+        comment.setToName(commentMapper.selectByPrimaryKey(Long.valueOf(comment.getParentId())).getName());
     }
 }

@@ -39,14 +39,15 @@
         select
         <include refid="Base_Column_List"/>
         from comment
-        where article_id=#{articleId,jdbcType=INTEGER}
+        where article_id=#{articleId,jdbcType=INTEGER} and parent_id = -1
     </select>
 
     <select id="selectCommentByParentId" resultType="top.ninng.entity.Comment" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from comment
-        where parent_id=#{parentId,jdbcType=INTEGER}
+        where find_in_set(id,getCommentChildById(#{parentId,jdbcType=INTEGER})) and
+        id != #{parentId,jdbcType=INTEGER}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
