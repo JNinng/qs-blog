@@ -16,11 +16,13 @@ public class AboutResult implements Serializable {
     private String info;
     private String email;
     private String headPortrait;
+    private String id;
 
-    public AboutResult(String info, String email, String headPortrait) {
+    public AboutResult(String info, String email, String headPortrait, String id) {
         this.info = info;
         this.email = email;
         this.headPortrait = headPortrait;
+        this.id = id;
     }
 
     public String getEmail() {
@@ -37,6 +39,14 @@ public class AboutResult implements Serializable {
 
     public void setHeadPortrait(String headPortrait) {
         this.headPortrait = headPortrait;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getInfo() {
