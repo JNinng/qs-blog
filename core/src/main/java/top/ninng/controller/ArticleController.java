@@ -3,15 +3,13 @@ package top.ninng.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import top.ninng.entity.Article;
-import top.ninng.entity.ArticleIdListPageResult;
-import top.ninng.entity.ArticleTimelineMonthResult;
-import top.ninng.entity.UnifyResponse;
+import top.ninng.entity.*;
 import top.ninng.service.IArticleService;
 import top.ninng.utils.IdObfuscator;
 import top.ninng.utils.Ip;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -83,6 +81,21 @@ public class ArticleController {
     }
 
     /**
+     * 文章无正文信息分页查询
+     *
+     * @return 文章信息列表
+     */
+    @RequestMapping(value = "/getPageList", method = RequestMethod.POST)
+    public UnifyResponse<ArrayList<Article>> getArticleListByPage(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "pageSize") int pageSize) {
+        if (StpUtil.isLogin()) {
+            return iArticleService.getArticleListByPage(page, pageSize);
+        }
+        return UnifyResponse.fail("认证失败！", null);
+    }
+
+    /**
      * 根据混淆 id 获取文章预览版
      *
      * @param id 混淆 id
@@ -103,6 +116,19 @@ public class ArticleController {
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
         System.out.println(date);
         return iArticleService.getArticleTimelineMonthResult(date);
+    }
+
+    /**
+     * 获取文章管理的分页信息
+     *
+     * @return 文章管理部分分页信息
+     */
+    @RequestMapping(value = "/pageInfo", method = RequestMethod.GET)
+    public UnifyResponse<PageInfo> getPageInfo() {
+        if (StpUtil.isLogin()) {
+            return iArticleService.getPageInfo();
+        }
+        return UnifyResponse.fail("认证失败！", null);
     }
 
     /**

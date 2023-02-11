@@ -1,10 +1,8 @@
 package top.ninng.service;
 
-import top.ninng.entity.Article;
-import top.ninng.entity.ArticleIdListPageResult;
-import top.ninng.entity.ArticleTimelineMonthResult;
-import top.ninng.entity.UnifyResponse;
+import top.ninng.entity.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -42,6 +40,13 @@ public interface IArticleService {
     UnifyResponse<Article> getArticleInfoById(long id);
 
     /**
+     * 获取文章无正文信息分页查询
+     *
+     * @return 文章信息列表
+     */
+    UnifyResponse<ArrayList<Article>> getArticleListByPage(int page, int pageSize);
+
+    /**
      * 根据 id 获取文章预览版
      *
      * @param id 文章 id
@@ -58,6 +63,13 @@ public interface IArticleService {
     UnifyResponse<ArticleTimelineMonthResult> getArticleTimelineMonthResult(Date date);
 
     /**
+     * 查询分页信息
+     *
+     * @return 分页信息
+     */
+    UnifyResponse<PageInfo> getPageInfo();
+
+    /**
      * 根据 id 更新文章
      *
      * @param id      文章 id
@@ -68,7 +80,6 @@ public interface IArticleService {
      * @return 更新结果
      */
     UnifyResponse<String> updateArticleById(long id, long userId, String content, String title, String ip);
-
 
     /**
      * 上传新文章

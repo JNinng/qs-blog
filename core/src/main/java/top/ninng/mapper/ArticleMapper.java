@@ -50,6 +50,15 @@ public interface ArticleMapper {
     int insertSelective(Article article);
 
     /**
+     * 分页查询文章无正文信息列表
+     *
+     * @param l 左边界
+     * @param r 右边界
+     * @return 文章信息列表
+     */
+    ArrayList<Article> selectArticleByPage(int l, int r);
+
+    /**
      * 分页查询文章 id
      *
      * @param l 左边界
@@ -57,6 +66,13 @@ public interface ArticleMapper {
      * @return 分页查询 id 结果列表
      */
     ArrayList<Long> selectArticleIdListByPage(int l, int r);
+
+    /**
+     * 查询分页信息
+     *
+     * @return 文章分页信息
+     */
+    int selectArticleTotal();
 
     /**
      * 根据 id 查询文章信息

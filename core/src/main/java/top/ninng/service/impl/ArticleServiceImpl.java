@@ -91,6 +91,23 @@ public class ArticleServiceImpl implements IArticleService {
         return UnifyResponse.ok(article);
     }
 
+    @Override
+    public UnifyResponse<ArrayList<Article>> getArticleListByPage(int page, int pageSize) {
+        // 处理网页分页逻辑和数据库分页查询逻辑
+        page = (page <= 0) ? 1 : page;
+        ArrayList<Article> articleArrayList = articleMapper.selectArticleByPage((page - 1) * pageSize, pageSize)//查询结果处理
+                .stream()
+                // id 混淆
+                .peek(article -> {
+                    article.setObfuscatorId(idObfuscator.encode(article.getId(), IdConfig.ARTICLE_ID));
+                    article.setObfuscatorUserId(idObfuscator.encode(article.getUserId(), IdConfig.USER_ID));
+                })
+                // 转化为列表
+                .collect(Collectors.toCollection(ArrayList::new));
+        ;
+        return UnifyResponse.ok(articleArrayList);
+    }
+
     /**
      * 获取指定 id 的预览版文章
      *
@@ -129,6 +146,11 @@ public class ArticleServiceImpl implements IArticleService {
         return UnifyResponse.ok(new ArticleTimelineMonthResult(date, collect));
     }
 
+    @Override
+    public UnifyResponse<PageInfo> getPageInfo() {
+        return UnifyResponse.ok(new PageInfo(articleMapper.selectArticleTotal()));
+    }
+
     /**
      * 根据指定 id 更新文章
      *
@@ -147,6 +169,7 @@ public class ArticleServiceImpl implements IArticleService {
             Article article = new Article();
             article.setId((int) id);
             article.setContent(content);
+            article.setIp(ip);
             // 持久层数据更新
             articleMapper.updateByPrimaryKeySelective(article);
             return UnifyResponse.ok("更新成功！");
