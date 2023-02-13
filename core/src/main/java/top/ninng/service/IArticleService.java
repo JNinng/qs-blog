@@ -82,6 +82,14 @@ public interface IArticleService {
     UnifyResponse<String> updateArticleById(long id, long userId, String content, String title, String ip);
 
     /**
+     * 根据 id 更新文章无正文信息
+     *
+     * @param article 文章信息
+     * @return 更新结果
+     */
+    UnifyResponse<String> updateArticleById(Article article);
+
+    /**
      * 上传新文章
      *
      * @param id      用户 id

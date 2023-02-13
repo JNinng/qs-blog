@@ -3,6 +3,7 @@ package top.ninng.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import top.ninng.config.IdConfig;
 import top.ninng.entity.*;
 import top.ninng.service.IArticleService;
 import top.ninng.utils.IdObfuscator;
@@ -151,21 +152,60 @@ public class ArticleController {
         // 判断是否登录
         if (StpUtil.isLogin()) {
             // 获取真实 id
-            long[] realUserId = idObfuscator.decode(userId, 0);
-            long[] realId = idObfuscator.decode(id, 1);
+            long[] realUserId = idObfuscator.decode(userId, IdConfig.USER_ID);
+            long[] realId = idObfuscator.decode(id, IdConfig.ARTICLE_ID);
 
             if (realUserId.length > 0 && realId.length > 0) {
-                // 获取当前登录用户 id
-                long loginId = Long.parseLong((String) StpUtil.getLoginId());
-                if (loginId == realUserId[0]) {
-                    return iArticleService.updateArticleById(realId[0], realUserId[0], content, title,
-                            // 获取 ip
-                            Ip.getIpAddr(request));
-                }
+                //                // 获取当前登录用户 id
+                //                long loginId = Long.parseLong((String) StpUtil.getLoginId());
+                //                if (loginId == realUserId[0]) {
+                return iArticleService.updateArticleById(realId[0], realUserId[0], content, title,
+                        // 获取 ip
+                        Ip.getIpAddr(request));
+                //                }
             }
-            return UnifyResponse.fail("id 错误！");
+            return UnifyResponse.fail("id 错误！", null);
         }
-        return UnifyResponse.fail("您还未登录！");
+        return UnifyResponse.fail("您还未登录！", null);
+    }
+
+    @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
+    public UnifyResponse<String> updateArticleInfo(
+            @RequestParam(value = "content") String content,
+            @RequestParam(value = "id") String id,
+            @RequestParam(value = "ip") String ip,
+            @RequestParam(value = "likeNum") Integer likeNum,
+            @RequestParam(value = "mode") Integer mode,
+            @RequestParam(value = "pageView") Integer pageView,
+            @RequestParam(value = "site") String site,
+            @RequestParam(value = "status") Integer status,
+            @RequestParam(value = "stick") Integer stick,
+            @RequestParam(value = "title") String title,
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "createTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date createTime,
+            @RequestParam(value = "updateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date updateTime) {
+        if (StpUtil.isLogin()) {
+            // 获取真实 id
+            long[] realUserId = idObfuscator.decode(userId, IdConfig.USER_ID);
+            long[] realId = idObfuscator.decode(id, IdConfig.ARTICLE_ID);
+            if (realUserId.length > 0 && realId.length > 0) {
+                Article article = new Article();
+                article.setId(Math.toIntExact(realId[0]));
+                article.setIp(ip);
+                article.setLikeNum(likeNum);
+                article.setMode(mode);
+                article.setPageView(pageView);
+                article.setSite(site);
+                article.setStatus(status);
+                article.setStick(stick);
+                article.setTitle(title);
+                article.setUserId(Math.toIntExact(realUserId[0]));
+                article.setCreateTime(createTime);
+                article.setUpdateTime(updateTime);
+                return iArticleService.updateArticleById(article);
+            }
+        }
+        return UnifyResponse.fail("认证失败！", null);
     }
 
     /**

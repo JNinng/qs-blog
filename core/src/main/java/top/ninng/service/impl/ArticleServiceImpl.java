@@ -43,7 +43,7 @@ public class ArticleServiceImpl implements IArticleService {
         Article article = articleMapper.selectByPrimaryKey(id);
         // id 混淆处理
         article.setObfuscatorId(idObfuscator.encode(article.getId(), IdConfig.ARTICLE_ID));
-        article.setObfuscatorUserId(idObfuscator.encode(article.getUserId(), IdConfig.ARTICLE_ID));
+        article.setObfuscatorUserId(idObfuscator.encode(article.getUserId(), IdConfig.USER_ID));
         return UnifyResponse.ok(article);
     }
 
@@ -95,7 +95,8 @@ public class ArticleServiceImpl implements IArticleService {
     public UnifyResponse<ArrayList<Article>> getArticleListByPage(int page, int pageSize) {
         // 处理网页分页逻辑和数据库分页查询逻辑
         page = (page <= 0) ? 1 : page;
-        ArrayList<Article> articleArrayList = articleMapper.selectArticleByPage((page - 1) * pageSize, pageSize)//查询结果处理
+        ArrayList<Article> articleArrayList = articleMapper.selectArticleByPage((page - 1) * pageSize, pageSize)
+                //查询结果处理
                 .stream()
                 // id 混淆
                 .peek(article -> {
@@ -172,9 +173,21 @@ public class ArticleServiceImpl implements IArticleService {
             article.setIp(ip);
             // 持久层数据更新
             articleMapper.updateByPrimaryKeySelective(article);
-            return UnifyResponse.ok("更新成功！");
+            return UnifyResponse.ok("更新成功！", null);
         }
-        return UnifyResponse.fail("所有权错误，更新失败！");
+        return UnifyResponse.fail("所有权错误，更新失败！", null);
+    }
+
+    /**
+     * 根据指定 id 更新文章
+     *
+     * @param article 文章
+     * @return 更新结果
+     */
+    @Override
+    public UnifyResponse<String> updateArticleById(Article article) {
+        // 持久层数据更新
+        return UnifyResponse.ok(articleMapper.updateByPrimaryKeySelective(article) > 0 ? "更新成功！" : "更新失败！");
     }
 
     /**
