@@ -9,9 +9,7 @@ import java.io.Serializable;
  * @TableName config
  */
 public class Config implements Serializable {
-
     private static final long serialVersionUID = -5266453149309811500L;
-
     /**
      * id
      */
@@ -32,6 +30,17 @@ public class Config implements Serializable {
      * 默认值
      */
     private String defaultValue;
+
+    public Config() {
+    }
+
+    public Config(Integer id, String key, String value, String info, String defaultValue) {
+        this.id = id;
+        this.key = key;
+        this.value = value;
+        this.info = info;
+        this.defaultValue = defaultValue;
+    }
 
     /**
      * 默认值

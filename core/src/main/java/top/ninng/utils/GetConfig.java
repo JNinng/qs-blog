@@ -29,19 +29,29 @@ public class GetConfig {
         this.configMapper = configMapper;
     }
 
+    public ArrayList<Config> getConfigArrayList() {
+        return configArrayList;
+    }
+
+    public void setConfigArrayList(ArrayList<Config> configArrayList) {
+        this.configArrayList = configArrayList;
+    }
+
     /**
      * @return 配置信息 map
      */
     public Map<String, String> map() {
         if (EmptyCheck.isEmpty(map)) {
-            this.configArrayList = configMapper.selectAll();
-        }
-        if (EmptyCheck.isEmpty(map)) {
-            map = new HashMap<>(configArrayList.size());
-            for (Config config : configArrayList) {
-                map.put(config.getKey(), config.getValue());
-            }
+            updateData();
         }
         return map;
+    }
+
+    public void updateData() {
+        configArrayList = configMapper.selectAll();
+        map = new HashMap<>(configArrayList.size());
+        for (Config config : configArrayList) {
+            map.put(config.getKey(), config.getValue());
+        }
     }
 }

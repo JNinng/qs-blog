@@ -170,6 +170,7 @@ public class ArticleServiceImpl implements IArticleService {
             Article article = new Article();
             article.setId((int) id);
             article.setContent(content);
+            article.setTitle(title);
             article.setIp(ip);
             // 持久层数据更新
             articleMapper.updateByPrimaryKeySelective(article);
@@ -199,7 +200,7 @@ public class ArticleServiceImpl implements IArticleService {
      * @return 上传结果
      */
     @Override
-    public UnifyResponse<String> upload(long id, String content, String title) {
+    public UnifyResponse<String> upload(long id, String content, String title, String ip) {
         //构建新的文章
         Article article = new Article();
         article.setUserId((int) id);
@@ -208,6 +209,8 @@ public class ArticleServiceImpl implements IArticleService {
         article.setDeleteStatus(false);
         article.setContent(content);
         article.setTitle(title);
+        article.setIp(ip);
+        article.setSite("本地");
         article.setPageView(0);
         article.setLikeNum(0);
         article.setStatus(0);
@@ -216,8 +219,8 @@ public class ArticleServiceImpl implements IArticleService {
         // 持久层数据插入
         int result = articleMapper.insert(article);
         if (result > 0) {
-            return UnifyResponse.ok("上传成功！");
+            return UnifyResponse.ok("上传成功！", null);
         }
-        return UnifyResponse.fail("上传失败！");
+        return UnifyResponse.fail("上传失败！", null);
     }
 }

@@ -1,10 +1,12 @@
 package top.ninng.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import top.ninng.entity.FileItem;
 import top.ninng.entity.UnifyResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * 文件服务接口
@@ -29,5 +31,5 @@ public interface IFileService {
      * @param files 文件名
      * @return 上传结果
      */
-    UnifyResponse<String> upload(MultipartFile[] files);
+    UnifyResponse<ArrayList<FileItem>> upload(MultipartFile[] files);
 }

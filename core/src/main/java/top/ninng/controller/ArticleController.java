@@ -218,11 +218,12 @@ public class ArticleController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public UnifyResponse<String> upload(
             @RequestParam(value = "content") String content,
-            @RequestParam(value = "title") String title) {
+            @RequestParam(value = "title") String title,
+            HttpServletRequest request) {
         if (StpUtil.isLogin()) {
             // 获取当前登录用户 id
             long loginId = Long.parseLong((String) StpUtil.getLoginId());
-            return iArticleService.upload(loginId, content, title);
+            return iArticleService.upload(loginId, content, title, Ip.getIpAddr(request));
         }
         return UnifyResponse.fail("您还未登录！");
     }

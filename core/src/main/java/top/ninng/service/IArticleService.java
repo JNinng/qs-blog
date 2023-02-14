@@ -95,7 +95,8 @@ public interface IArticleService {
      * @param id      用户 id
      * @param content 正文
      * @param title   标题
+     * @param ip      ip
      * @return 上传结果
      */
-    UnifyResponse<String> upload(long id, String content, String title);
+    UnifyResponse<String> upload(long id, String content, String title, String ip);
 }
