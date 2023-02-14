@@ -28,6 +28,7 @@ public class AboutServiceImpl implements IAboutService {
     public AboutServiceImpl(GetConfig getConfig, ArticleMapper articleMapper, IdObfuscator idObfuscator) {
         this.getConfig = getConfig;
         this.idObfuscator = idObfuscator;
+        this.articleMapper = articleMapper;
         // 从数据库获取“关于”信息
         aboutResult = new AboutResult(
                 articleMapper.selectByPrimaryKey(Long.valueOf(getConfig.map().get("ABOUT_INFO_ARTICLE_ID"))).getContent(),
@@ -35,7 +36,6 @@ public class AboutServiceImpl implements IAboutService {
                 getConfig.map().get("HEAD_PORTRAIT"),
                 idObfuscator.encode(Integer.parseInt(getConfig.map().get("ABOUT_INFO_ARTICLE_ID")),
                         IdConfig.ARTICLE_ID));
-
     }
 
     /**
@@ -45,9 +45,19 @@ public class AboutServiceImpl implements IAboutService {
      */
     @Override
     public UnifyResponse<AboutResult> getInfo() {
+        loadAbout();
         if (EmptyCheck.notEmpty(aboutResult)) {
             return UnifyResponse.ok(aboutResult);
         }
         return UnifyResponse.fail();
+    }
+
+    public void loadAbout() {
+        aboutResult = new AboutResult(
+                articleMapper.selectByPrimaryKey(Long.valueOf(getConfig.map().get("ABOUT_INFO_ARTICLE_ID"))).getContent(),
+                getConfig.map().get("EMAIL"),
+                getConfig.map().get("HEAD_PORTRAIT"),
+                idObfuscator.encode(Integer.parseInt(getConfig.map().get("ABOUT_INFO_ARTICLE_ID")),
+                        IdConfig.ARTICLE_ID));
     }
 }

@@ -2,12 +2,14 @@ package top.ninng.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import top.ninng.entity.FileItem;
 import top.ninng.entity.UnifyResponse;
 import top.ninng.service.IFileService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * 文件控制器
@@ -49,7 +51,7 @@ public class FileController {
      * @return 上传结果
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public UnifyResponse<String> upload(
+    public UnifyResponse<ArrayList<FileItem>> upload(
             @RequestParam(value = "files") MultipartFile[] files) {
         return iFileService.upload(files);
     }

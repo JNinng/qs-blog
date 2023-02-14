@@ -2,6 +2,7 @@ package top.ninng.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import top.ninng.entity.FileItem;
 import top.ninng.entity.UnifyResponse;
 import top.ninng.service.IFileService;
 import top.ninng.utils.EmptyCheck;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -91,10 +93,11 @@ public class FileServiceImpl implements IFileService {
      * @return 上传结果
      */
     @Override
-    public UnifyResponse<String> upload(MultipartFile[] files) {
+    public UnifyResponse<ArrayList<FileItem>> upload(MultipartFile[] files) {
+        ArrayList<FileItem> newFileNameList = new ArrayList<>();
         for (MultipartFile file : files) {
             if (EmptyCheck.isEmpty(file) || file.isEmpty()) {
-                return UnifyResponse.fail("上传文件为空！");
+                return UnifyResponse.fail("上传文件为空！", null);
             }
             // 文件后缀
             String suffix =
@@ -104,14 +107,15 @@ public class FileServiceImpl implements IFileService {
             String name = Objects.requireNonNull(file.getOriginalFilename())
                     .substring(0, file.getOriginalFilename().lastIndexOf("."));
             String newFileName = name + "-" + UUID.randomUUID() + suffix;
+            newFileNameList.add(new FileItem("/file/image/" + newFileName, newFileName));
             File fileTemp = new File(imgPath + newFileName);
             try {
                 file.transferTo(fileTemp);
             } catch (IOException e) {
                 e.printStackTrace();
-                return UnifyResponse.fail("上传失败！");
+                return UnifyResponse.fail("上传失败！", null);
             }
         }
-        return UnifyResponse.ok("上传成功！");
+        return UnifyResponse.ok("上传成功！", newFileNameList);
     }
 }
