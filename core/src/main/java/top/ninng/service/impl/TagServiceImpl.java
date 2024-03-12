@@ -17,7 +17,6 @@ import top.ninng.utils.IdObfuscator;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -100,10 +99,10 @@ public class TagServiceImpl implements ITagService {
      */
     @Override
     public UnifyResponse<ArrayList<Tag>> getAllTag() {
-        ArrayList<Tag> arrayList = (ArrayList<Tag>) redisTemplate.opsForValue().get("allTag");
-        if (EmptyCheck.notEmpty(arrayList)) {
-            return UnifyResponse.ok(arrayList);
-        }
+        //        ArrayList<Tag> arrayList = (ArrayList<Tag>) redisTemplate.opsForValue().get("allTag");
+        //        if (EmptyCheck.notEmpty(arrayList)) {
+        //            return UnifyResponse.ok(arrayList);
+        //        }
         // 持久层数据查询
         ArrayList<Tag> tagList = tagMapper.selectAll();
         tagList = tagList.stream()
@@ -116,7 +115,7 @@ public class TagServiceImpl implements ITagService {
                     .peek(this::obfuscatorId)
                     // 转化列表输出
                     .collect(Collectors.toCollection(ArrayList::new));
-            redisTemplate.opsForValue().set("allTag", tagList, 60, TimeUnit.SECONDS);
+            //            redisTemplate.opsForValue().set("allTag", tagList, 5, TimeUnit.SECONDS);
             return UnifyResponse.ok(tagList);
         }
         return UnifyResponse.ok("暂无标签！", null);
