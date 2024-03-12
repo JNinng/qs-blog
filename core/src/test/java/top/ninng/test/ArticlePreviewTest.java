@@ -25,6 +25,9 @@ public class ArticlePreviewTest {
         System.out.println(stringArrayList.get(0).getClass());
     }
 
+    /**
+     * 预览版信息截取测试
+     */
     @Test
     public void previewContentTest() {
         String content = "sdfffsdf \n<!-- more -->\nsdgsgdfgdfhdf";
@@ -34,6 +37,9 @@ public class ArticlePreviewTest {
         System.out.println(content1.split("<!-- more -->\n")[0]);
     }
 
+    /**
+     * 数据库指定时间格式测试
+     */
     @Test
     public void timeTest() {
         //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

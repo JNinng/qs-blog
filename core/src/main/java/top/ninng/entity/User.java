@@ -20,32 +20,48 @@ public class User implements Serializable {
      */
     @JSONField(serialize = false)
     private Integer id;
+
     /**
      * 用户名称
      */
     private String userName;
+
     /**
      * 用户密码
      */
     @JSONField(serialize = false)
     private String userPassword;
+
     /**
      * 邮箱
      */
     private String email;
+
     /**
      * 创建时间
      */
     private Date createTime;
+
     /**
      * 修改时间
      */
     @JSONField(serialize = false)
     private Date updateTime;
+
     /**
      * 删除状态
      */
     private Boolean deleteStatus;
+
+    /**
+     * 审核状态
+     */
+    private Integer status;
+
+    /**
+     * 用户头像
+     */
+    private String headPortrait;
 
     /**
      * 创建时间
@@ -90,6 +106,20 @@ public class User implements Serializable {
     }
 
     /**
+     * 用户头像
+     */
+    public String getHeadPortrait() {
+        return headPortrait;
+    }
+
+    /**
+     * 用户头像
+     */
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
+    }
+
+    /**
      * id
      */
     public Integer getId() {
@@ -101,6 +131,20 @@ public class User implements Serializable {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * 审核状态
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 审核状态
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     /**
@@ -156,6 +200,8 @@ public class User implements Serializable {
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteStatus() == null) ? 0 : getDeleteStatus().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getHeadPortrait() == null) ? 0 : getHeadPortrait().hashCode());
         return result;
     }
 
@@ -182,24 +228,24 @@ public class User implements Serializable {
                 && (this.getUpdateTime() == null ? other.getUpdateTime() == null :
                 this.getUpdateTime().equals(other.getUpdateTime()))
                 && (this.getDeleteStatus() == null ? other.getDeleteStatus() == null :
-                this.getDeleteStatus().equals(other.getDeleteStatus()));
+                this.getDeleteStatus().equals(other.getDeleteStatus()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getHeadPortrait() == null ? other.getHeadPortrait() == null :
+                this.getHeadPortrait().equals(other.getHeadPortrait()));
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", userName=").append(userName);
-        sb.append(", userPassword=").append(userPassword);
-        sb.append(", email=").append(email);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", deleteStatus=").append(deleteStatus);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", userPassword='" + "userPassword" + '\'' +
+                ", email='" + email + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteStatus=" + deleteStatus +
+                ", status=" + status +
+                ", headPortrait='" + headPortrait + '\'' +
+                '}';
     }
 }

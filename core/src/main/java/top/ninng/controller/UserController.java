@@ -11,6 +11,8 @@ import top.ninng.service.IUserService;
 import top.ninng.utils.IdObfuscator;
 
 /**
+ * 用户控制器
+ *
  * @Author OhmLaw
  * @Date 2022/12/31 16:03
  * @Version 1.0
@@ -27,6 +29,12 @@ public class UserController {
         this.idObfuscator = idObfuscator;
     }
 
+    /**
+     * 检查指定用户登录状态
+     *
+     * @param id 检查目标用户 id
+     * @return 登录状态
+     */
     @RequestMapping(value = "/checkLogin", method = RequestMethod.GET)
     public UnifyResponse<String> checkLogin(
             @RequestParam(value = "id") String id) {
@@ -39,6 +47,13 @@ public class UserController {
         return UnifyResponse.fail("您还未登录！");
     }
 
+    /**
+     * 用户登录
+     *
+     * @param name     用户名
+     * @param password 密码
+     * @return 登录结果
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public UnifyResponse<LoginResult> login(
             @RequestParam(value = "name") String name,
@@ -46,6 +61,11 @@ public class UserController {
         return iUserService.login(name, password);
     }
 
+    /**
+     * 登出
+     *
+     * @return 登出结果
+     */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public UnifyResponse<String> logout() {
         return iUserService.logout();

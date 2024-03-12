@@ -1,6 +1,8 @@
 package top.ninng.entity;
 
 /**
+ * 登录响应实体
+ *
  * @Author OhmLaw
  * @Date 2023/1/2 18:34
  * @Version 1.0
