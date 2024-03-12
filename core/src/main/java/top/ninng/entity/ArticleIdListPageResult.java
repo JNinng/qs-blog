@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * 文章列表页返回
+ * 文章列表页响应实体
  *
  * @Author OhmLaw
  * @Date 2023/1/7 21:00
@@ -17,7 +17,7 @@ public class ArticleIdListPageResult implements Serializable {
     /**
      * id
      */
-    private ArrayList<String> list;
+    private ArrayList<ArticleIdAndTitle> list;
     /**
      * 页数
      */
@@ -27,17 +27,17 @@ public class ArticleIdListPageResult implements Serializable {
      */
     private int pageSize;
 
-    public ArticleIdListPageResult(ArrayList<String> list, int page, int pageSize) {
+    public ArticleIdListPageResult(ArrayList<ArticleIdAndTitle> list, int page, int pageSize) {
         this.list = list;
         this.page = page;
         this.pageSize = pageSize;
     }
 
-    public ArrayList<String> getList() {
+    public ArrayList<ArticleIdAndTitle> getList() {
         return list;
     }
 
-    public void setList(ArrayList<String> list) {
+    public void setList(ArrayList<ArticleIdAndTitle> list) {
         this.list = list;
     }
 

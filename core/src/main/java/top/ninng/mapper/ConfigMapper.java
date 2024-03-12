@@ -14,18 +14,59 @@ import java.util.ArrayList;
 @Repository("configMapper")
 public interface ConfigMapper {
 
+    /**
+     * 根据 id 删除配置
+     *
+     * @param id 配置 id
+     * @return 删除结果
+     */
     int deleteByPrimaryKey(Long id);
 
-    int insert(Config record);
+    /**
+     * 插入一条完整配置信息
+     *
+     * @param config 配置信息
+     * @return 插入结果
+     */
+    int insert(Config config);
 
-    int insertSelective(Config record);
+    /**
+     * 选择性插入一条配置
+     *
+     * @param config 配置信息
+     * @return 插入结果
+     */
+    int insertSelective(Config config);
 
+    /**
+     * 查询所有配置信息
+     *
+     * @return 所有配置信息
+     */
     ArrayList<Config> selectAll();
 
+    /**
+     * 根据 id 查询配置信息
+     *
+     * @param id 配置 id
+     * @return 配置信息
+     */
     Config selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKey(Config record);
+    /**
+     * 根据 id 更新一条完整配置信息
+     *
+     * @param config 配置 id
+     * @return 更新结果
+     */
+    int updateByPrimaryKey(Config config);
 
-    int updateByPrimaryKeySelective(Config record);
+    /**
+     * 根据 id 选择性更新一条配置信息
+     *
+     * @param config 配置 id
+     * @return 更新结果
+     */
+    int updateByPrimaryKeySelective(Config config);
 
 }

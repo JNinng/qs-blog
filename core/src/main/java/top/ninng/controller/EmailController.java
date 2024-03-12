@@ -11,6 +11,8 @@ import top.ninng.utils.GetConfig;
 import top.ninng.utils.IdObfuscator;
 
 /**
+ * 邮件控制器
+ *
  * @Author OhmLaw
  * @Date 2023/1/10 19:49
  * @Version 1.0
@@ -31,14 +33,25 @@ public class EmailController {
         this.rootId = Long.parseLong(getConfig.map().get("ROOT_USER"));
     }
 
+    /**
+     * 发送官方邮件
+     *
+     * @param title     标题
+     * @param content   正文
+     * @param addressee 收件人
+     * @return 邮件发送结果
+     */
     @RequestMapping(value = "/sendOfficial", method = RequestMethod.POST)
     public UnifyResponse<String> sendEmail(
             @RequestParam(value = "title") String title,
             @RequestParam(value = "content") String content,
             @RequestParam(value = "addressee") String addressee) {
+        // 判断是否登录
         if (StpUtil.isLogin()) {
+            // 获取登录 id
             long loginId = Long.parseLong((String) StpUtil.getLoginId());
             if (loginId == rootId) {
+                // root 用户有权发送
                 return iEmailService.sendOfficialEmail(title, content, addressee);
             } else {
                 return UnifyResponse.fail("权限不足！");
